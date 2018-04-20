@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.xiuyu</groupId>
+		<artifactId>quick-cli</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>quick-user-service</artifactId>
+	<name>quick-user-service</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>cn.xiuyu</groupId>
+			<artifactId>quick-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.xiuyu</groupId>
+			<artifactId>quick-user-facade</artifactId>
+		</dependency>
+	</dependencies>
+</project>

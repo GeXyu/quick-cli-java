@@ -1,0 +1,15 @@
+/.settings/
+/target/
+*.class
+.project
+.classpath
+log-*.txt
+
+.springBeans
+/.settings/*
+
+
+/.idea/*
+*.iml
+
+**C:**
