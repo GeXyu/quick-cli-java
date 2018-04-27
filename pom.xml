@@ -22,7 +22,6 @@
 	</properties>
 
 	<modules>
-		<module>quick-core</module>
 		<module>quick-common</module>
 		<module>quick-service</module>
 		<module>quick-webapp</module>
@@ -88,17 +87,12 @@
 			</dependency>
 			<dependency>
 				<groupId>cn.xiuyu</groupId>
-				<artifactId>quick-core</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.xiuyu</groupId>
 				<artifactId>quick-user-service</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.xiuyu</groupId>
-				<artifactId>quick-message-customer</artifactId>
+				<artifactId>quick-rabbitmq</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>

@@ -1,21 +1,15 @@
 package cn.xiuyu.service.authentication.impl;
 
-import java.io.IOException;
-
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.alibaba.fastjson.JSON;
 
 import cn.xiuyu.core.dao.authentication.UserRepository;
-import cn.xiuyu.core.dao.redis.RedisRepository;
 import cn.xiuyu.core.model.authentication.UserModel;
 import cn.xiuyu.service.authentication.api.UserService;
-import redis.clients.jedis.JedisCluster;
 
 @Service(interfaceClass = UserService.class)
 @org.springframework.stereotype.Service

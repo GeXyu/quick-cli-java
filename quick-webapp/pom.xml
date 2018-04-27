@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>cn.xiuyu</groupId>
-			<artifactId>quick-core</artifactId>
+			<artifactId>quick-common</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>cn.xiuyu</groupId>
