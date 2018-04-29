@@ -23,10 +23,15 @@
 
 	<modules>
 		<module>quick-common</module>
-		<module>quick-service</module>
 		<module>quick-webapp</module>
-		<module>quick-message-customer</module>
-		<module>quick-user-facade</module>
+		<module>quick-user</module>
+		<module>quick-message</module>
+		<module>quick-scm</module>
+		<module>quick-pay</module>
+		<module>quick-sso</module>
+		<module>quick-search</module>
+		<module>quick-front</module>
+		<module>quick-manager</module>
 	</modules>
 
 	<dependencies>
@@ -83,21 +88,6 @@
 			<dependency>
 				<groupId>cn.xiuyu</groupId>
 				<artifactId>quick-common</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.xiuyu</groupId>
-				<artifactId>quick-user-service</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.xiuyu</groupId>
-				<artifactId>quick-rabbitmq</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.xiuyu</groupId>
-				<artifactId>quick-user-facade</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
