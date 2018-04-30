@@ -23,94 +23,188 @@ import cn.xiuyu.core.model.base.TableConstant;
 @Table(name = TableConstant.AUTHENTICATION + "user")
 public class UserModel extends BaseModel {
 
-	private static final long serialVersionUID = -6525812361564117630L;
+    private static final long serialVersionUID = -6525812361564117630L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	// 用户名
-	@Column(name = "username")
-	private String username;
+    // 用户名
+    @Column(name = "username")
+    private String username;
 
-	// 密码
-	@Column(name = "password")
-	private String password;
+    // 密码
+    @Column(name = "password")
+    private String password;
 
-	// 是否使用
-	@Column(name = "enable")
-	private Byte enable;
+    // 是否使用
+    @Column(name = "enable")
+    private Byte enable;
 
-	// 是否使用
-	@Column(name = "description")
-	private String description;
+    // 是否使用
+    @Column(name = "description")
+    private String description;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = TableConstant.AUTHENTICATION + "user_group_relation", joinColumns = {
-			@JoinColumn(name = "user_name") }, inverseJoinColumns = { @JoinColumn(name = "group_name") })
-	private Set<GroupModel> groupSet;
+    // 微信
+    @Column(name = "we_chat")
+    private String weChat;
 
-	@Transient
-	private List<GroupModel> groupList;
+    // qq
+    @Column(name = "qq")
+    private String qq;
 
-	public Integer getId() {
-		return id;
-	}
+    // 手机号
+    @Column(name = "phone")
+    private String phone;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    // 头像
+    @Column(name = "head_picture")
+    private String headPicture;
 
-	public String getUsername() {
-		return username;
-	}
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = TableConstant.AUTHENTICATION + "user_group_relation", joinColumns = {
+            @JoinColumn(name = "user_name") }, inverseJoinColumns = { @JoinColumn(name = "group_name") })
+    private Set<GroupModel> groupSet;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Transient
+    private List<GroupModel> groupList;
 
-	public String getPassword() {
-		return password;
-	}
+    @Transient
+    private List<ResourceModel> resourceList;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Byte getEnable() {
-		return enable;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setEnable(Byte enable) {
-		this.enable = enable;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public Set<GroupModel> getGroupSet() {
-		return groupSet;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setGroupSet(Set<GroupModel> groupSet) {
-		this.groupSet = groupSet;
-	}
+    public Byte getEnable() {
+        return enable;
+    }
 
-	public List<GroupModel> getGroupList() {
-		return groupList;
-	}
+    public void setEnable(Byte enable) {
+        this.enable = enable;
+    }
 
-	public void setGroupList(List<GroupModel> groupList) {
-		this.groupList = groupList;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public UserModel() {
-		super();
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<GroupModel> getGroupSet() {
+        return groupSet;
+    }
+
+    public void setGroupSet(Set<GroupModel> groupSet) {
+        this.groupSet = groupSet;
+    }
+
+    public List<GroupModel> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<GroupModel> groupList) {
+        this.groupList = groupList;
+    }
+
+    /**
+     * @return the weChat
+     */
+    public String getWeChat() {
+        return weChat;
+    }
+
+    /**
+     * @param weChat
+     *            the weChat to set
+     */
+    public void setWeChat(String weChat) {
+        this.weChat = weChat;
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone
+     *            the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
+     * @return the qq
+     */
+    public String getQq() {
+        return qq;
+    }
+
+    /**
+     * @param qq
+     *            the qq to set
+     */
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    /**
+     * @return the headPicture
+     */
+    public String getHeadPicture() {
+        return headPicture;
+    }
+
+    /**
+     * @return the resourceList
+     */
+    public List<ResourceModel> getResourceList() {
+        return resourceList;
+    }
+
+    /**
+     * @param resourceList
+     *            the resourceList to set
+     */
+    public void setResourceList(List<ResourceModel> resourceList) {
+        this.resourceList = resourceList;
+    }
+
+    /**
+     * @param headPicture
+     *            the headPicture to set
+     */
+    public void setHeadPicture(String headPicture) {
+        this.headPicture = headPicture;
+    }
+
+    public UserModel() {
+        super();
+    }
 
 }

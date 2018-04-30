@@ -14,44 +14,61 @@ import cn.xiuyu.core.model.base.TableConstant;
 @Table(name = TableConstant.AUTHENTICATION + "resource")
 public class ResourceModel extends BaseModel {
 
-	private static final long serialVersionUID = -644158204480893845L;
+    private static final long serialVersionUID = -644158204480893845L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	@Column(name = "resource_name")
-	private String resourceName;
+    @Column(name = "resource_name")
+    private String resourceName;
 
-	@Column(name = "description")
-	private String description;
+    @Column(name = "url")
+    private String url;
 
-	public Integer getId() {
-		return id;
-	}
+    @Column(name = "description")
+    private String description;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getResourceName() {
-		return resourceName;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
+    public String getResourceName() {
+        return resourceName;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public ResourceModel() {
-		super();
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public ResourceModel() {
+        super();
+    }
 
 }

@@ -10,6 +10,11 @@
  */
 package cn.xiuyu.user.service;
 
+import cn.xiuyu.core.service.base.BaseService;
+import cn.xiuyu.user.model.GroupModel;
+import cn.xiuyu.user.model.ResourceModel;
+import cn.xiuyu.user.model.UserModel;
+
 /**
  * <p>
  * Title: UserService
@@ -23,12 +28,33 @@ package cn.xiuyu.user.service;
  * @modified [who date description]
  * @check [who date description]
  */
-public interface UserService {
+public interface UserService extends BaseService<UserModel, Integer> {
 
     /**
      * 测试
      *
      */
     void test();
+    
+    /**
+     * 查询所有
+     * @param id
+     * @return
+     */
+    UserModel findAll(Integer id);
+    
+    /**
+     * 根据用户查询用户组
+     * @param id
+     * @return
+     */
+    GroupModel findGroup(Integer id);
+    
+    /**
+     * 查询权限
+     * @param id
+     * @return
+     */
+    ResourceModel findResource(Integer id);
 
 }
