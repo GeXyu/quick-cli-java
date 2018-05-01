@@ -46,7 +46,7 @@ import cn.xiuyu.manager.shiro.StatelessDefaultSubjectFactory;
  * @check [who date description]
  */
 @Configuration
-public class ShiroConfigure {
+public class ManagerShiroConfigure {
 
     @Autowired
     private StatelessAuthorizingRealm statelessAuthorizingRealm;

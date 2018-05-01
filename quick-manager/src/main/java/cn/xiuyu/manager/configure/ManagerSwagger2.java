@@ -36,7 +36,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-public class Swagger2 {
+public class ManagerSwagger2 {
 
     private static final String VERSION = "1.0";
     private static final String BASE_PACKAGE = "cn.xiuyu.manager.controller";
