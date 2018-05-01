@@ -126,18 +126,48 @@ public class UserServiceImpl implements UserService {
      * @see cn.xiuyu.user.service.UserService#findGroup(java.lang.Integer)
      */
     @Override
-    public GroupModel findGroup(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<GroupModel> findGroup(Integer id) {
+        Optional<UserModel> result = userRepository.findById(id);
+        UserModel user = null;
+        if (result.isPresent()) {
+            user = result.get();
+            return new ArrayList<>(user.getGroupSet());
+        }
+        return new ArrayList<>();
+
     }
 
     /**
      * @see cn.xiuyu.user.service.UserService#findResource(java.lang.Integer)
      */
     @Override
-    public ResourceModel findResource(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<ResourceModel> findResource(Integer id) {
+        Optional<UserModel> result = userRepository.findById(id);
+        UserModel user = null;
+        if (result.isPresent()) {
+            user = result.get();
+            user.setGroupList(new ArrayList<>(user.getGroupSet()));
+            user.setGroupSet(new HashSet<>());
+
+            List<ResourceModel> resourceList = new ArrayList<ResourceModel>();
+            user.getGroupList().stream().forEach(group -> {
+                group.setResourceList(new ArrayList<>(group.getResourceSet()));
+                group.setResourceSet(new HashSet<>());
+
+                resourceList.addAll(group.getResourceList());
+            });
+
+            return resourceList;
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * @see cn.xiuyu.user.service.UserService#findByUsername(java.lang.String)
+     */
+    @Override
+    public UserModel findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }

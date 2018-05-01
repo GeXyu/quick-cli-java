@@ -10,13 +10,17 @@
  */
 package cn.xiuyu.manager.controller.user;
 
+import java.util.Date;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.tomcat.util.security.MD5Encoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.alibaba.dubbo.config.annotation.Reference;
 
 import cn.xiuyu.manager.data.MVCResult;
 import cn.xiuyu.user.model.UserModel;
@@ -39,7 +43,7 @@ import cn.xiuyu.user.service.UserService;
 @RequestMapping("manager/user/user")
 public class UserController {
 
-    @Reference
+    @Autowired
     private UserService userService;
 
     /**
@@ -48,6 +52,10 @@ public class UserController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public MVCResult save(@RequestBody UserModel user) {
         try {
+            System.out.println(userService);
+            user.setPassword(MD5Encoder.encode(user.getPassword().getBytes()));
+            user.setCreateTime(new Date());
+
             userService.save(user);
             return MVCResult.buildTrueResult();
         } catch (Exception e) {
@@ -89,5 +97,19 @@ public class UserController {
         } catch (Exception e) {
             return MVCResult.buildFalseResult(e);
         }
+    }
+
+    @RequestMapping("test")
+    @RequiresRoles("test")
+    @RequiresPermissions("test")
+    public MVCResult test() {
+        try {
+            System.out.println("test");
+            System.out.println(userService);
+            return MVCResult.buildTrueResult();
+        } catch (Exception e) {
+            return MVCResult.buildFalseResult(e);
+        }
+
     }
 }

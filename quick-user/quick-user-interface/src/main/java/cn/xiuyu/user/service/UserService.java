@@ -10,6 +10,8 @@
  */
 package cn.xiuyu.user.service;
 
+import java.util.List;
+
 import cn.xiuyu.core.service.base.BaseService;
 import cn.xiuyu.user.model.GroupModel;
 import cn.xiuyu.user.model.ResourceModel;
@@ -35,26 +37,36 @@ public interface UserService extends BaseService<UserModel, Integer> {
      *
      */
     void test();
-    
+
     /**
      * 查询所有
+     * 
      * @param id
      * @return
      */
     UserModel findAll(Integer id);
-    
+
     /**
      * 根据用户查询用户组
+     * 
      * @param id
      * @return
      */
-    GroupModel findGroup(Integer id);
-    
+    List<GroupModel> findGroup(Integer id);
+
     /**
      * 查询权限
+     * 
      * @param id
      * @return
      */
-    ResourceModel findResource(Integer id);
+    List<ResourceModel> findResource(Integer id);
+
+    /**
+     * 根据用户名查询
+     * 
+     * @param username
+     */
+    UserModel findByUsername(String username);
 
 }

@@ -10,13 +10,12 @@
  */
 package cn.xiuyu.manager.controller.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.alibaba.dubbo.config.annotation.Reference;
 
 import cn.xiuyu.manager.data.MVCResult;
 import cn.xiuyu.user.model.ResourceModel;
@@ -39,7 +38,7 @@ import cn.xiuyu.user.service.ResouceService;
 @RequestMapping("manager/user/resource")
 public class ResourceController {
 
-    @Reference
+    @Autowired
     private ResouceService resouceService;
 
     /**
@@ -60,6 +59,7 @@ public class ResourceController {
 
     /**
      * 查看
+     * 
      * @param id
      * @return
      */
@@ -74,6 +74,7 @@ public class ResourceController {
 
     /**
      * 删除
+     * 
      * @param id
      * @return
      */
@@ -81,6 +82,16 @@ public class ResourceController {
     public MVCResult delete(@PathVariable Integer id) {
         try {
             return MVCResult.buildTrueResult(resouceService.delete(id));
+        } catch (Exception e) {
+            return MVCResult.buildFalseResult(e);
+        }
+    }
+
+    @RequestMapping("test}")
+    public MVCResult test() {
+        try {
+            System.out.println(resouceService);
+            return MVCResult.buildTrueResult();
         } catch (Exception e) {
             return MVCResult.buildFalseResult(e);
         }

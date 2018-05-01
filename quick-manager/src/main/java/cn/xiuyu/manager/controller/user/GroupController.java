@@ -12,13 +12,12 @@ package cn.xiuyu.manager.controller.user;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.alibaba.dubbo.config.annotation.Reference;
 
 import cn.xiuyu.manager.data.MVCResult;
 import cn.xiuyu.user.model.GroupModel;
@@ -41,8 +40,11 @@ import cn.xiuyu.user.service.GroupService;
 @RequestMapping("manager/user/group")
 public class GroupController {
 
-    @Reference
+    @Autowired
     private GroupService groupService;
+
+    // @Reference 兼容
+    // private GroupService groupService1;
 
     /**
      * 保存
@@ -116,6 +118,18 @@ public class GroupController {
             @RequestParam("resources") List<Integer> resources) {
         try {
             groupService.relationResource(groupid, resources);
+            return MVCResult.buildTrueResult();
+        } catch (Exception e) {
+            return MVCResult.buildFalseResult(e);
+        }
+    }
+
+    @RequestMapping("test")
+    public MVCResult test() {
+        try {
+            System.out.println("test");
+            System.out.println(groupService);
+
             return MVCResult.buildTrueResult();
         } catch (Exception e) {
             return MVCResult.buildFalseResult(e);

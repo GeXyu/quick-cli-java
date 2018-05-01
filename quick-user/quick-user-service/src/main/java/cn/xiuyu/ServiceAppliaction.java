@@ -21,10 +21,9 @@ import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
  */
 @SpringBootApplication
 @EnableDubbo
-@DubboComponentScan //推荐
+@DubboComponentScan // 推荐
 public class ServiceAppliaction {
     public static void main(String[] args) {
         SpringApplication.run(ServiceAppliaction.class, args);
     }
-
 }

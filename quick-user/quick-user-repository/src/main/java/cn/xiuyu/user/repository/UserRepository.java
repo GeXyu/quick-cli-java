@@ -5,4 +5,9 @@ import cn.xiuyu.user.model.UserModel;
 
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
+    /**
+     * @param username
+     */
+    UserModel findByUsername(String username);
+
 }
