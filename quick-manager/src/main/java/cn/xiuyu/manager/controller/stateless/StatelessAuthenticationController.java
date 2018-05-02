@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.xiuyu.core.util.HmacSHA256Utils;
+import cn.xiuyu.core.util.JWTUtils;
 import cn.xiuyu.manager.data.MVCResult;
 import cn.xiuyu.manager.data.StatelessAuthenticationToken;
 
@@ -54,13 +54,7 @@ public class StatelessAuthenticationController {
         } catch (LockedAccountException e) {
             return MVCResult.buildFalseResult(new RuntimeException("锁定的账号"));
         }
-
         // 构造Token
-        String kengen = String.valueOf(System.currentTimeMillis());
-        StatelessAuthenticationToken statelessToken = new StatelessAuthenticationToken();
-        statelessToken.setKengen(kengen);
-        statelessToken.setNonce(HmacSHA256Utils.digest(kengen, username));
-        statelessToken.setUser(username);
-        return MVCResult.buildTrueResult(kengen);
+        return MVCResult.buildTrueResult(new StatelessAuthenticationToken(JWTUtils.generateToken(username)));
     }
 }

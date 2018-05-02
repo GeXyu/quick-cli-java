@@ -11,6 +11,7 @@
 package cn.xiuyu.manager.filter;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -19,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.web.filter.AccessControlFilter;
 
-import cn.xiuyu.core.util.HmacSHA256Utils;
+import cn.xiuyu.core.util.DateUtils;
+import cn.xiuyu.core.util.JWTUtils;
+import cn.xiuyu.core.util.JWTUtils.TokenStatus;
 
 /**
  * <p>
@@ -35,6 +38,11 @@ import cn.xiuyu.core.util.HmacSHA256Utils;
  * @check [who date description]
  */
 public class StatelessAccessControlFilter extends AccessControlFilter {
+
+    /**
+     * 临界时间
+     */
+    private static Long criticalTime = 60L * 20L;
 
     /**
      * @see org.apache.shiro.web.filter.AccessControlFilter#isAccessAllowed(javax.servlet.ServletRequest,
@@ -54,22 +62,39 @@ public class StatelessAccessControlFilter extends AccessControlFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        String xAuthenticateNonce = request.getHeader("x-Authenticate-nonce");
-        String xAuthenticateUser = request.getHeader("x-Authenticate-user");
-        String xAuthenticateKengen = request.getHeader("x-Authenticate-kengen");
-
-        if (xAuthenticateUser == null || xAuthenticateKengen == null || xAuthenticateNonce == null) {
-            noAuthenticaateHandle(response);
-            return false;
-        }
-
-        if (HmacSHA256Utils.digest(xAuthenticateKengen, xAuthenticateUser).equals(xAuthenticateNonce)) {
-            // 直接通过
+        String xAuthenticateNonce = request.getHeader("x-Authenticate-token");
+        // 检查token
+        TokenStatus tokenStatus = JWTUtils.verifyJwt(xAuthenticateNonce);
+        // 说明正常
+        if (tokenStatus.equals(TokenStatus.NORMAL)) {
+            // 需要查看是否在黑名单
+            if (existBlackList(xAuthenticateNonce)) {
+                return false;
+            }
+            
+            // 如果没有在黑名单需要查看是否即将过期，如果过期需要置换
+            if (DateUtils.getDiffRetLong(new Date(), JWTUtils.getDate(xAuthenticateNonce)) < criticalTime) {
+                response.setHeader("x-Authenticate-token",
+                        JWTUtils.generateToken(JWTUtils.getUser(xAuthenticateNonce)));
+            }
             return true;
-        } else {
+        } else if (tokenStatus.equals(TokenStatus.EXPIRED)) { // 说明事过期，需要重新登陆
             noAuthenticaateHandle(response);
             return false;
+        } else if (tokenStatus.equals(TokenStatus.ILLEGAL)) {// 说明事非法数据
+            return false;
         }
+        return false;
+    }
+
+    /**
+     * 是否存在黑名单
+     * @param xAuthenticateNonce
+     * @return
+     */
+    private boolean existBlackList(String xAuthenticateNonce) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /**

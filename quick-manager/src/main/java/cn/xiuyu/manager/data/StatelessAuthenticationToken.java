@@ -26,57 +26,21 @@ package cn.xiuyu.manager.data;
 public class StatelessAuthenticationToken {
 
     // token
-    private String nonce;
-
-    // 用戶名
-    private String user;
-
-    // 用于生成密钥
-    private String kengen;
+    private String token;
 
     /**
-     * @return the nonce
+     * @return the token
      */
-    public String getNonce() {
-        return nonce;
+    public String getToken() {
+        return token;
     }
 
     /**
-     * @param nonce
-     *            the nonce to set
+     * @param token
+     *            the token to set
      */
-    public void setNonce(String nonce) {
-        this.nonce = nonce;
-    }
-
-    /**
-     * @return the user
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * @param user
-     *            the user to set
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * @return the kengen
-     */
-    public String getKengen() {
-        return kengen;
-    }
-
-    /**
-     * @param kengen
-     *            the kengen to set
-     */
-    public void setKengen(String kengen) {
-        this.kengen = kengen;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     /**
@@ -84,6 +48,14 @@ public class StatelessAuthenticationToken {
      */
     public StatelessAuthenticationToken() {
         super();
+    }
+
+    /**
+     * @param token
+     */
+    public StatelessAuthenticationToken(String token) {
+        super();
+        this.token = token;
     }
 
 }
