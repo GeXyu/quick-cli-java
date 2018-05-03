@@ -22,10 +22,10 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.xiuyu.core.util.MD5Utils;
 import cn.xiuyu.user.model.GroupModel;
 import cn.xiuyu.user.model.ResourceModel;
 import cn.xiuyu.user.model.UserModel;
@@ -90,12 +90,11 @@ public class StatelessAuthorizingRealm extends AuthorizingRealm {
         }
 
         // 密码错误
-        if (!MD5Encoder.encode(password.getBytes()).equals(userModel.getPassword())) {
+        if (!MD5Utils.encrypt(password).equals(userModel.getPassword())) {
             throw new IncorrectCredentialsException();
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, getName());
         return authenticationInfo;
     }
-
 
 }

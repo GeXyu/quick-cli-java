@@ -91,8 +91,11 @@ public class JWTUtils {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRETKEY);
             JWTVerifier verifier = JWT.require(algorithm).build();
-            verifier.verify(token);
-            return TokenStatus.NORMAL;
+            if (token != null) {
+                verifier.verify(token);
+                return TokenStatus.NORMAL;
+            }
+            return TokenStatus.ILLEGAL;
         } catch (TokenExpiredException e) {
             return TokenStatus.EXPIRED;
         } catch (IllegalArgumentException e) {

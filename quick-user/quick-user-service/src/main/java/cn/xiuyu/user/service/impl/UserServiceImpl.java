@@ -173,7 +173,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserModel findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        UserModel user = userRepository.findByUsername(username);
+        user.setGroupSet(new HashSet<>());
+        return user;
     }
 
     /**

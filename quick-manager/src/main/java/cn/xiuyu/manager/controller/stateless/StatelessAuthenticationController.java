@@ -15,7 +15,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +48,7 @@ public class StatelessAuthenticationController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public MVCResult login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        UsernamePasswordToken token = new UsernamePasswordToken(username, MD5Encoder.encode(password.getBytes()));
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             SecurityUtils.getSubject().login(token);
         } catch (UnknownAccountException e) {

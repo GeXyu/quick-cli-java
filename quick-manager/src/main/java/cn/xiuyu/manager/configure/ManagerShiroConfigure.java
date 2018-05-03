@@ -51,6 +51,9 @@ public class ManagerShiroConfigure {
     @Autowired
     private StatelessAuthorizingRealm statelessAuthorizingRealm;
 
+    @Autowired
+    private StatelessAccessControlFilter statelessAccessControlFilter;
+
     /**
      * 配置过滤器工厂
      * 
@@ -63,18 +66,18 @@ public class ManagerShiroConfigure {
         filterFacotryBean.setSecurityManager(securityManager);
 
         // 设置filter
-        filterFacotryBean.getFilters().put("statelessAuthc", new StatelessAccessControlFilter());
 
         // 配置过滤url
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
         //
-        // filterChainDefinitionMap.put("/**", "statelessAuthc");
+        filterChainDefinitionMap.put(" */swagger-ui.html*", "anon");
+        filterChainDefinitionMap.put(" */manager/stateless/login*", "anon");
+        filterChainDefinitionMap.put("/**", "statelessAuthc");
 
-        filterChainDefinitionMap.put(" /swagger-ui.html*", "anon");
-        filterChainDefinitionMap.put(" /manager/stateless/login", "anon");
-
+        filterFacotryBean.setLoginUrl("*/manager/stateless/login*");
         filterFacotryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        filterFacotryBean.getFilters().put("statelessAuthc", statelessAccessControlFilter);
         return filterFacotryBean;
     }
 

@@ -14,7 +14,6 @@ import java.util.Date;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.xiuyu.core.util.MD5Utils;
 import cn.xiuyu.manager.data.MVCResult;
 import cn.xiuyu.user.model.UserModel;
 import cn.xiuyu.user.service.UserService;
@@ -53,7 +53,7 @@ public class UserController {
     public MVCResult save(@RequestBody UserModel user) {
         try {
             System.out.println(userService);
-            user.setPassword(MD5Encoder.encode(user.getPassword().getBytes()));
+            user.setPassword(MD5Utils.encrypt(user.getPassword()));
             user.setCreateTime(new Date());
 
             userService.save(user);
