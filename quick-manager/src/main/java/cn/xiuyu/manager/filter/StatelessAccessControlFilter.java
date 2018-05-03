@@ -19,10 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cn.xiuyu.core.util.DateUtils;
 import cn.xiuyu.core.util.JWTUtils;
 import cn.xiuyu.core.util.JWTUtils.TokenStatus;
+import cn.xiuyu.user.service.UserService;
 
 /**
  * <p>
@@ -37,7 +40,11 @@ import cn.xiuyu.core.util.JWTUtils.TokenStatus;
  * @modified [who date description]
  * @check [who date description]
  */
+@Component
 public class StatelessAccessControlFilter extends AccessControlFilter {
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 临界时间
@@ -71,7 +78,7 @@ public class StatelessAccessControlFilter extends AccessControlFilter {
             if (existBlackList(xAuthenticateNonce)) {
                 return false;
             }
-            
+
             // 如果没有在黑名单需要查看是否即将过期，如果过期需要置换
             if (DateUtils.getDiffRetLong(new Date(), JWTUtils.getDate(xAuthenticateNonce)) < criticalTime) {
                 response.setHeader("x-Authenticate-token",
@@ -89,12 +96,12 @@ public class StatelessAccessControlFilter extends AccessControlFilter {
 
     /**
      * 是否存在黑名单
+     * 
      * @param xAuthenticateNonce
      * @return
      */
     private boolean existBlackList(String xAuthenticateNonce) {
-        // TODO Auto-generated method stub
-        return false;
+        return userService.isExistBlacklist(xAuthenticateNonce);
     }
 
     /**

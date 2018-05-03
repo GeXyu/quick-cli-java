@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import cn.xiuyu.core.dao.redis.RedisRepository;
 import cn.xiuyu.user.model.GroupModel;
 import cn.xiuyu.user.model.ResourceModel;
 import cn.xiuyu.user.model.UserModel;
@@ -41,8 +42,13 @@ import cn.xiuyu.user.service.UserService;
 @Service(interfaceClass = UserService.class)
 public class UserServiceImpl implements UserService {
 
+    private static final String USER_BLACK_KEY = "user_black_key";
+
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RedisRepository redisRepository;
 
     @Override
     public void test() {
@@ -168,6 +174,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    /**
+     * @see cn.xiuyu.user.service.UserService#isExistBlacklist(java.lang.String)
+     */
+    @Override
+    public Boolean isExistBlacklist(String token) {
+        return redisRepository.isExistSet(USER_BLACK_KEY, token);
+    }
+
+    /**
+     * @see cn.xiuyu.user.service.UserService#addBlacklist(java.lang.String)
+     */
+    @Override
+    public String addBlacklist(String token) {
+        redisRepository.addSet(USER_BLACK_KEY, token);
+        return token;
     }
 
 }

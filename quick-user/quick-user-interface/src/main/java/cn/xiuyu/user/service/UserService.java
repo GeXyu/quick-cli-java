@@ -69,4 +69,19 @@ public interface UserService extends BaseService<UserModel, Integer> {
      */
     UserModel findByUsername(String username);
 
+    /**
+     * 是否存在黑名单
+     * 
+     * @param token
+     * @return
+     */
+    Boolean isExistBlacklist(String token);
+
+    /**
+     * 存放到黑名单
+     * @param token
+     * @return
+     */
+    String addBlacklist(String token);
+
 }

@@ -16,6 +16,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.tomcat.util.security.MD5Encoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.xiuyu.core.util.JWTUtils;
 import cn.xiuyu.manager.data.MVCResult;
 import cn.xiuyu.manager.data.StatelessAuthenticationToken;
+import cn.xiuyu.user.service.UserService;
 
 /**
  * <p>
@@ -42,6 +44,9 @@ import cn.xiuyu.manager.data.StatelessAuthenticationToken;
 @RequestMapping("manager/stateless")
 public class StatelessAuthenticationController {
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public MVCResult login(@RequestParam("username") String username, @RequestParam("password") String password) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, MD5Encoder.encode(password.getBytes()));
@@ -56,5 +61,21 @@ public class StatelessAuthenticationController {
         }
         // 构造Token
         return MVCResult.buildTrueResult(new StatelessAuthenticationToken(JWTUtils.generateToken(username)));
+    }
+
+    /**
+     * 注销
+     * 
+     * @param id
+     * @return
+     */
+    @RequestMapping("logou")
+    public MVCResult logout(String token) {
+        try {
+            userService.addBlacklist(token);
+            return MVCResult.buildTrueResult();
+        } catch (Exception e) {
+            return MVCResult.buildFalseResult(e);
+        }
     }
 }
