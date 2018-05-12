@@ -71,11 +71,11 @@ public class ManagerShiroConfigure {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
         //
-        filterChainDefinitionMap.put(" */swagger-ui.html*", "anon");
-        filterChainDefinitionMap.put(" */manager/stateless/login*", "anon");
+        filterChainDefinitionMap.put("/swagger-ui.html*", "anon");
+        filterChainDefinitionMap.put("/manager/stateless/login", "anon");
         filterChainDefinitionMap.put("/**", "statelessAuthc");
 
-        filterFacotryBean.setLoginUrl("*/manager/stateless/login*");
+        filterFacotryBean.setLoginUrl("/manager/stateless/login*");
         filterFacotryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         filterFacotryBean.getFilters().put("statelessAuthc", statelessAccessControlFilter);
         return filterFacotryBean;

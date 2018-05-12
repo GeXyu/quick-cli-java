@@ -40,7 +40,12 @@ public class JWTUtils {
      */
     private static final String SECRETKEY = "@#$@%@$%#@$@DFGSseksg55sfgs";// 可配置
 
-    private static final String KEY = "user";
+    private static final String JWT_KEY = "user";
+
+    /**
+     * 2个小时
+     */
+    private static final Integer TIME_OUT = 3600000 * 2;
 
     /**
      * 生成token
@@ -51,7 +56,7 @@ public class JWTUtils {
     public static String generateToken(String user) {
         try {
             Algorithm al = Algorithm.HMAC256(SECRETKEY);
-            return JWT.create().withClaim(KEY, user).withExpiresAt(new Date(System.currentTimeMillis() + 5000))
+            return JWT.create().withClaim(JWT_KEY, user).withExpiresAt(new Date(System.currentTimeMillis() + TIME_OUT))
                     .sign(al);
         } catch (IllegalArgumentException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -78,7 +83,7 @@ public class JWTUtils {
      */
     public static String getUser(String token) {
         DecodedJWT jwt = JWT.decode(token);
-        return jwt.getClaims().get(KEY).asString();
+        return jwt.getClaims().get(JWT_KEY).asString();
     }
 
     /**

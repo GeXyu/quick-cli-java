@@ -61,7 +61,7 @@ public class StatelessAuthorizingRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         String username = String.valueOf(principals.getPrimaryPrincipal());
-        final UserModel userModel = userService.findByUsername(username);
+        UserModel userModel = userService.findByUsername(username);
         List<GroupModel> groupList = userService.findGroup(userModel.getId());
         groupList.stream().forEach(group -> {
             simpleAuthorizationInfo.addRole(group.getGroupName());
@@ -83,7 +83,7 @@ public class StatelessAuthorizingRealm extends AuthorizingRealm {
         String username = String.valueOf(token.getPrincipal());
         String password = new String((char[]) token.getCredentials());
 
-        UserModel userModel = userService.findByUsername(username);
+        final UserModel userModel = userService.findByUsername(username);
         if (userModel == null) {
             // 账号不存在
             throw new UnknownAccountException();

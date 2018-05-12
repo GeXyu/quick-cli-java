@@ -12,8 +12,6 @@ package cn.xiuyu.manager.controller.user;
 
 import java.util.Date;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +38,7 @@ import cn.xiuyu.user.service.UserService;
  * @check [who date description]
  */
 @RestController
-@RequestMapping("manager/user/user")
+@RequestMapping("manager/user")
 public class UserController {
 
     @Autowired
@@ -100,8 +98,6 @@ public class UserController {
     }
 
     @RequestMapping("test")
-    @RequiresRoles("test")
-    @RequiresPermissions("test")
     public MVCResult test() {
         try {
             System.out.println("test");

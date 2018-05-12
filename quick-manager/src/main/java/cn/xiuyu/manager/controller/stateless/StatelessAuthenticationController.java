@@ -48,6 +48,7 @@ public class StatelessAuthenticationController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public MVCResult login(@RequestParam("username") String username, @RequestParam("password") String password) {
+        System.out.println("login....");
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             SecurityUtils.getSubject().login(token);

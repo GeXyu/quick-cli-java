@@ -39,7 +39,7 @@ import cn.xiuyu.user.service.UserService;
  * @modified [who date description]
  * @check [who date description]
  */
-@Service(interfaceClass = UserService.class)
+@Service(interfaceClass = UserService.class, timeout = 5000)
 public class UserServiceImpl implements UserService {
 
     private static final String USER_BLACK_KEY = "user_black_key";
@@ -174,7 +174,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel findByUsername(String username) {
         UserModel user = userRepository.findByUsername(username);
-        user.setGroupSet(new HashSet<>());
+        if (user != null) {
+            user.setGroupSet(new HashSet<>());
+        }
         return user;
     }
 

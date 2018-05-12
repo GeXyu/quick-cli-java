@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +47,10 @@ public class StatelessAccessControlFilter extends AccessControlFilter {
     @Autowired
     private UserService userService;
 
+    private static final String LOGIN_URL = "manager/stateless/login";
+
+    private static final String OPTIONS = "OPTIONS";
+
     /**
      * 临界时间
      */
@@ -66,31 +71,54 @@ public class StatelessAccessControlFilter extends AccessControlFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest req, ServletResponse resp) throws Exception {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) resp;
+        HttpServletRequest request = WebUtils.toHttp(req);
+        HttpServletResponse response = WebUtils.toHttp(resp);
 
-        String xAuthenticateNonce = request.getHeader("x-Authenticate-token");
-        // 检查token
-        TokenStatus tokenStatus = JWTUtils.verifyJwt(xAuthenticateNonce);
-        // 说明正常
-        if (tokenStatus.equals(TokenStatus.NORMAL)) {
-            // 需要查看是否在黑名单
-            if (existBlackList(xAuthenticateNonce)) {
+        // 每次会post请求先发送一次options请求
+        String method = request.getMethod();
+        if (method.equals(OPTIONS)) {
+            return true;
+        }
+
+        String xAuthenticateNonce = request.getHeader("authorization");
+        // 如果不为空
+        if (xAuthenticateNonce != null) {
+            // 检查token
+            TokenStatus tokenStatus = JWTUtils.verifyJwt(xAuthenticateNonce);
+            // 说明正常
+            if (tokenStatus.equals(TokenStatus.NORMAL)) {
+                // 需要查看是否在黑名单
+                if (existBlackList(xAuthenticateNonce)) {
+                    noAuthenticaateHandle(response);
+                    return false;
+                }
+
+                // 如果没有在黑名单需要查看是否即将过期，如果过期需要置换
+                if (DateUtils.getDiffRetLong(new Date(), JWTUtils.getDate(xAuthenticateNonce)) < criticalTime) {
+                    response.setHeader("Authorization", JWTUtils.generateToken(JWTUtils.getUser(xAuthenticateNonce)));
+                }
+                return true;
+            } else if (tokenStatus.equals(TokenStatus.EXPIRED)) { // 说明事过期，需要重新登陆
+                if (request.getRequestURL().toString().contains(LOGIN_URL)) {
+                    return true;
+                }
+                noAuthenticaateHandle(response);
+                return false;
+            } else if (tokenStatus.equals(TokenStatus.ILLEGAL)) {// 说明事非法数据
+                if (request.getRequestURL().toString().contains(LOGIN_URL)) {
+                    return true;
+                }
+                noAuthenticaateHandle(response);
                 return false;
             }
-
-            // 如果没有在黑名单需要查看是否即将过期，如果过期需要置换
-            if (DateUtils.getDiffRetLong(new Date(), JWTUtils.getDate(xAuthenticateNonce)) < criticalTime) {
-                response.setHeader("x-Authenticate-token",
-                        JWTUtils.generateToken(JWTUtils.getUser(xAuthenticateNonce)));
+        } else {
+            // 判断是不是登陆页面
+            if (request.getRequestURL().toString().contains(LOGIN_URL)) {
+                return true;
             }
-            return true;
-        } else if (tokenStatus.equals(TokenStatus.EXPIRED)) { // 说明事过期，需要重新登陆
-            noAuthenticaateHandle(response);
-            return false;
-        } else if (tokenStatus.equals(TokenStatus.ILLEGAL)) {// 说明事非法数据
-            return false;
         }
+
+        noAuthenticaateHandle(response);
         return false;
     }
 
@@ -109,8 +137,8 @@ public class StatelessAccessControlFilter extends AccessControlFilter {
      * @throws IOException
      */
     private void noAuthenticaateHandle(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write("403");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write("401");
     }
 
 }
