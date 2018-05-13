@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -175,12 +176,32 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public UserModel findByUsername(String username) {
-        UserModel user = userRepository.findByUsername(username);
+        UserModel u = new UserModel();
+        u.setUsername(username);
+        UserModel user = userRepository.findOne(Example.of(u)).get();
+        seriHandle(user);
+
+        return user;
+    }
+
+    /**
+     * 序列化
+     * 
+     * @param user
+     */
+    private void seriHandle(UserModel user) {
         if (user != null) {
             user.setGroupList(new ArrayList<>(user.getGroupSet()));
+            user.getGroupList().stream().forEach(group -> {
+                group.setResourceList(new ArrayList<>(group.getResourceSet()));
+                group.setResourceSet(new HashSet<>());
+
+                group.setUserList(new ArrayList<>(group.getUserSet()));
+                group.setUserSet(new HashSet<>());
+            });
+
             user.setGroupSet(new HashSet<>());
         }
-        return user;
     }
 
     /**

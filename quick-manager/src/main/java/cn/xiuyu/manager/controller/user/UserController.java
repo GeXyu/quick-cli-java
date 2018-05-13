@@ -10,6 +10,7 @@
  */
 package cn.xiuyu.manager.controller.user;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -120,12 +121,13 @@ public class UserController {
 
         try {
             UserModel user = userService.findByUsername(username);
-            Set<GroupModel> groupSet = user.getGroupSet();
+            List<GroupModel> groupSet = user.getGroupList();
 
             // 去重
-            Map<String, Object> resourceMap = new HashMap<>();
+            List<Object> result = new ArrayList<>();
             Set<ResourceModel> topResourceSet = new HashSet<>();
             groupSet.stream().forEach(group -> {
+                Map<String, Object> resourceMap = new HashMap<>();
                 List<ResourceModel> topResourceList = groupService.findTopReourceByGroup(group.getId());
                 topResourceList.stream().forEach(topResource -> {
                     if (!topResourceSet.contains(topResource)) {
@@ -136,9 +138,11 @@ public class UserController {
                         resourceMap.put("topResource", topResource);
                         resourceMap.put("childResource", childResource);
                     }
+
+                    result.add(resourceMap);
                 });
             });
-            return MVCResult.buildTrueResult(resourceMap);
+            return MVCResult.buildTrueResult(result);
         } catch (Exception e) {
             return MVCResult.buildFalseResult(e);
         }
