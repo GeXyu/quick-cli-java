@@ -19,9 +19,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.alibaba.dubbo.config.annotation.Service;
 
 import cn.xiuyu.user.model.GroupModel;
 import cn.xiuyu.user.model.ResourceModel;
@@ -44,7 +43,7 @@ import cn.xiuyu.user.service.GroupService;
  * @modified [who date description]
  * @check [who date description]
  */
-@Service(interfaceClass = GroupService.class)
+@Service("groupService")
 public class GroupServiceImpl implements GroupService {
 
     @Autowired

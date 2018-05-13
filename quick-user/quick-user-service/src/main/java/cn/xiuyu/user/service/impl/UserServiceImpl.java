@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.alibaba.dubbo.config.annotation.Service;
 
 import cn.xiuyu.core.dao.redis.RedisRepository;
 import cn.xiuyu.user.model.GroupModel;
@@ -40,7 +39,7 @@ import cn.xiuyu.user.service.UserService;
  * @modified [who date description]
  * @check [who date description]
  */
-@Service(interfaceClass = UserService.class, timeout = 5000)
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
     private static final String USER_BLACK_KEY = "user_black_key";

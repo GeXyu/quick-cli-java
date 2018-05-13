@@ -15,8 +15,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-
-import com.alibaba.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 
 import cn.xiuyu.user.model.ResourceModel;
 import cn.xiuyu.user.repository.ResourceRepository;
@@ -35,7 +34,7 @@ import cn.xiuyu.user.service.ResouceService;
  * @modified [who date description]
  * @check [who date description]
  */
-@Service(interfaceClass = ResouceService.class)
+@Service("resouceService")
 public class ResourceServiceImpl implements ResouceService {
 
     @Autowired
