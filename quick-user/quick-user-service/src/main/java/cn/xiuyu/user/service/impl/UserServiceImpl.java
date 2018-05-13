@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
@@ -172,9 +173,11 @@ public class UserServiceImpl implements UserService {
      * @see cn.xiuyu.user.service.UserService#findByUsername(java.lang.String)
      */
     @Override
+    @Transactional(readOnly = true)
     public UserModel findByUsername(String username) {
         UserModel user = userRepository.findByUsername(username);
         if (user != null) {
+            user.setGroupList(new ArrayList<>(user.getGroupSet()));
             user.setGroupSet(new HashSet<>());
         }
         return user;

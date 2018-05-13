@@ -1,4 +1,4 @@
-package org.quick.user.service;
+package cn.xiuyu.user.service;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

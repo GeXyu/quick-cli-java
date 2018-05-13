@@ -39,7 +39,7 @@ public interface GroupService extends BaseService<GroupModel, Integer> {
      * 
      * @return
      */
-    Page<GroupModel> list(Integer currPage,Integer pageSize);
+    Page<GroupModel> list(Integer currPage, Integer pageSize);
 
     /**
      * 
@@ -49,31 +49,51 @@ public interface GroupService extends BaseService<GroupModel, Integer> {
 
     /**
      * 查詢用戶
+     * 
      * @param id
      * @return
      */
     List<UserModel> findUser(Integer id);
-    
+
     /**
      * 查询资源
+     * 
      * @param id
      * @return
      */
     List<ResourceModel> findResouce(Integer id);
-    
+
     /**
      * 关联用户
+     * 
      * @param groupid
      * @param users
      */
-    void relationUser(Integer groupid,List<Integer> users);
-    
-    
+    void relationUser(Integer groupid, List<Integer> users);
+
     /**
-     * 关联资源 
+     * 关联资源
+     * 
      * @param groupid
      * @param resources
      */
-    void relationResource(Integer groupid,List<Integer> resources);
+    void relationResource(Integer groupid, List<Integer> resources);
+
+    /**
+     * 根据组 查询顶级资源
+     * 
+     * @param groupId
+     * @return
+     */
+    List<ResourceModel> findTopReourceByGroup(Integer groupId);
+
+    /**
+     * 根据顶级资源和组查询子资源
+     * 
+     * @param parentId
+     * @param groupId
+     * @return
+     */
+    List<ResourceModel> findByParentAndGroup(Integer parentId, Integer groupId);
 
 }

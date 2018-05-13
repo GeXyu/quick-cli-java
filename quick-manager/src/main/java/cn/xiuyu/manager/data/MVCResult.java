@@ -31,9 +31,9 @@ public class MVCResult {
 
     private Integer code;
 
-    private Boolean result;
+    private Boolean status;
 
-    private Object data;
+    private Object result;
 
     private String message;
 
@@ -68,18 +68,26 @@ public class MVCResult {
     }
 
     /**
-     * @return the data
+     * @return the status
      */
-    public Object getData() {
-        return data;
+    public Boolean getStatus() {
+        return status;
     }
 
     /**
-     * @param data
-     *            the data to set
+     * @param status
+     *            the status to set
      */
-    public void setData(Object data) {
-        this.data = data;
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    /**
+     * @param result
+     *            the result to set
+     */
+    public void setResult(Object result) {
+        this.result = result;
     }
 
     /**
@@ -100,16 +108,8 @@ public class MVCResult {
     /**
      * @return the result
      */
-    public Boolean getResult() {
+    public Object getResult() {
         return result;
-    }
-
-    /**
-     * @param result
-     *            the result to set
-     */
-    public void setResult(Boolean result) {
-        this.result = result;
     }
 
     public static MVCResult buildTrueResult() {
@@ -126,7 +126,7 @@ public class MVCResult {
     public static MVCResult buildFalseResult(Exception e) {
         MVCResult mvcResult = new MVCResult();
         mvcResult.setCode(500);
-        mvcResult.setResult(false);
+        mvcResult.setStatus(false);
         mvcResult.setMessage(e.getMessage());
         return mvcResult;
     }
@@ -138,8 +138,8 @@ public class MVCResult {
     public static MVCResult buildTrueResult(Object data) {
         MVCResult mvcResult = new MVCResult();
         mvcResult.setCode(200);
-        mvcResult.setResult(true);
-        mvcResult.setData(data);
+        mvcResult.setStatus(true);
+        mvcResult.setResult(data);
         return mvcResult;
     }
 }

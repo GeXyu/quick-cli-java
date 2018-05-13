@@ -68,7 +68,7 @@ public class StatelessAuthorizingRealm extends AuthorizingRealm {
         });
         List<ResourceModel> reourceList = userService.findResource(userModel.getId());
         reourceList.stream().forEach(resource -> {
-            simpleAuthorizationInfo.addStringPermission(resource.getUrl());
+            simpleAuthorizationInfo.addStringPermission(resource.getPath());
         });
         return simpleAuthorizationInfo;
     }

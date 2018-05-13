@@ -10,6 +10,8 @@
  */
 package cn.xiuyu.user.service;
 
+import java.util.List;
+
 import cn.xiuyu.core.service.base.BaseService;
 import cn.xiuyu.user.model.ResourceModel;
 
@@ -27,5 +29,18 @@ import cn.xiuyu.user.model.ResourceModel;
  * @check [who date description]
  */
 public interface ResouceService extends BaseService<ResourceModel, Integer> {
+
+    /**
+     * 获取顶级资源
+     */
+    List<ResourceModel> findTopResource();
+
+    /**
+     * 获取子资源
+     * 
+     * @param id
+     * @return
+     */
+    List<ResourceModel> findChildrenResource(ResourceModel resource);
 
 }

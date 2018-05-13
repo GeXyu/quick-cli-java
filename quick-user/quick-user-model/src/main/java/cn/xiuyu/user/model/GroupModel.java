@@ -43,7 +43,7 @@ public class GroupModel extends BaseModel {
 
 	// 资源
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = TableConstant.AUTHENTICATION + "user_resource_relation", joinColumns = {
+	@JoinTable(name = TableConstant.AUTHENTICATION + "group_resource_relation", joinColumns = {
 			@JoinColumn(name = "group_name") }, inverseJoinColumns = { @JoinColumn(name = "resource_name") })
 	private Set<ResourceModel> resourceSet;
 

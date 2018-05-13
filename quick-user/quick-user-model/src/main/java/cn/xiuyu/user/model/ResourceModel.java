@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import cn.xiuyu.core.model.base.BaseModel;
@@ -20,11 +22,22 @@ public class ResourceModel extends BaseModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "resource_name")
-    private String resourceName;
+    // 资源名
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "url")
-    private String url;
+    // path
+    @Column(name = "path")
+    private String path;
+
+    // router文件路径
+    @Column(name = "router")
+    private String router;
+
+    // 父亲
+    @ManyToOne
+    @JoinColumn(name = "parent", nullable = true)
+    private ResourceModel parent;
 
     @Column(name = "description")
     private String description;
@@ -37,34 +50,79 @@ public class ResourceModel extends BaseModel {
         this.id = id;
     }
 
-    public String getResourceName() {
-        return resourceName;
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
+    /**
+     * @return the path
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * @param path
+     *            the path to set
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    /**
+     * @return the router
+     */
+    public String getRouter() {
+        return router;
+    }
+
+    /**
+     * @param router
+     *            the router to set
+     */
+    public void setRouter(String router) {
+        this.router = router;
+    }
+
+    /**
+     * @return the parent
+     */
+    public ResourceModel getParent() {
+        return parent;
+    }
+
+    /**
+     * @param parent
+     *            the parent to set
+     */
+    public void setParent(ResourceModel parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param description
+     *            the description to set
+     */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * @return the url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * @param url the url to set
-     */
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public ResourceModel() {

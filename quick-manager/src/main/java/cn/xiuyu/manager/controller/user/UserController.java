@@ -11,17 +11,26 @@
 package cn.xiuyu.manager.controller.user;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.xiuyu.core.util.MD5Utils;
 import cn.xiuyu.manager.data.MVCResult;
+import cn.xiuyu.user.model.GroupModel;
+import cn.xiuyu.user.model.ResourceModel;
 import cn.xiuyu.user.model.UserModel;
+import cn.xiuyu.user.service.GroupService;
 import cn.xiuyu.user.service.UserService;
 
 /**
@@ -43,6 +52,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GroupService groupService;
 
     /**
      * 保存
@@ -92,6 +104,41 @@ public class UserController {
         try {
             UserModel user = userService.delete(id);
             return MVCResult.buildTrueResult(user);
+        } catch (Exception e) {
+            return MVCResult.buildFalseResult(e);
+        }
+    }
+
+    /**
+     * 获取路由
+     * 
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "getRouter")
+    public MVCResult getRouter(@RequestParam("username") String username) {
+
+        try {
+            UserModel user = userService.findByUsername(username);
+            Set<GroupModel> groupSet = user.getGroupSet();
+
+            // 去重
+            Map<String, Object> resourceMap = new HashMap<>();
+            Set<ResourceModel> topResourceSet = new HashSet<>();
+            groupSet.stream().forEach(group -> {
+                List<ResourceModel> topResourceList = groupService.findTopReourceByGroup(group.getId());
+                topResourceList.stream().forEach(topResource -> {
+                    if (!topResourceSet.contains(topResource)) {
+                        topResourceSet.add(topResource);
+                        List<ResourceModel> childResource = groupService.findByParentAndGroup(topResource.getId(),
+                                group.getId());
+
+                        resourceMap.put("topResource", topResource);
+                        resourceMap.put("childResource", childResource);
+                    }
+                });
+            });
+            return MVCResult.buildTrueResult(resourceMap);
         } catch (Exception e) {
             return MVCResult.buildFalseResult(e);
         }

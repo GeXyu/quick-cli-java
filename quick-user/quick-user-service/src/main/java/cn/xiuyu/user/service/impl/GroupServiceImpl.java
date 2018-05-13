@@ -194,4 +194,21 @@ public class GroupServiceImpl implements GroupService {
         }
     }
 
+    /**
+     * @see cn.xiuyu.user.service.GroupService#findTopReourceByGroup(java.lang.Integer)
+     */
+    @Override
+    public List<ResourceModel> findTopReourceByGroup(Integer groupId) {
+        return resourceRepository.findTopReourceByGroup(groupId);
+    }
+
+    /**
+     * @see cn.xiuyu.user.service.GroupService#findByParentAndGroup(java.lang.Integer,
+     *      java.lang.Integer)
+     */
+    @Override
+    public List<ResourceModel> findByParentAndGroup(Integer parentId, Integer groupId) {
+        return resourceRepository.findByParentAndGroup(parentId, groupId);
+    }
+
 }

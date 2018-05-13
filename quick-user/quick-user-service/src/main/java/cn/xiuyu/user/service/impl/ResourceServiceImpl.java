@@ -10,9 +10,11 @@
  */
 package cn.xiuyu.user.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
@@ -77,6 +79,24 @@ public class ResourceServiceImpl implements ResouceService {
             resourceRepository.delete(resource);
         }
         return resource;
+    }
+
+    /**
+     * @see cn.xiuyu.user.service.ResouceService#findTopResource()
+     */
+    @Override
+    public List<ResourceModel> findTopResource() {
+        return resourceRepository.findByParentIsNull();
+    }
+
+    /**
+     * @see cn.xiuyu.user.service.ResouceService#findChildrenResource(java.lang.Integer)
+     */
+    @Override
+    public List<ResourceModel> findChildrenResource(ResourceModel resource) {
+        ResourceModel model = new ResourceModel();
+        model.setParent(resource);
+        return resourceRepository.findAll(Example.of(model));
     }
 
 }

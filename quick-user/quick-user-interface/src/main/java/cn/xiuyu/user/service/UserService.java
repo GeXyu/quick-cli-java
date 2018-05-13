@@ -79,9 +79,12 @@ public interface UserService extends BaseService<UserModel, Integer> {
 
     /**
      * 存放到黑名单
+     * 
      * @param token
      * @return
      */
     String addBlacklist(String token);
+
+
 
 }
